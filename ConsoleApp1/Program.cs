@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
@@ -12,15 +13,19 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Person tom = new Person(null, null);
+            //Person tom = new Person(null, null);
 
-            tom.FirstName = "Tom";
-            Console.WriteLine($"FirstName = {tom.FirstName}");
-            Console.WriteLine($"FullName = {tom.FullName}");
+            //tom.FirstName = "Tom";
+            //Console.WriteLine($"FirstName = {tom.FirstName}");
+            //Console.WriteLine($"FullName = {tom.FullName}");
 
-            tom.LastName = "Hanson";
-            Console.WriteLine($"LastName = {tom.LastName}");
-            Console.WriteLine($"FullName = {tom.FullName}");
+            //tom.LastName = "Hanson";
+            //Console.WriteLine($"LastName = {tom.LastName}");
+            //Console.WriteLine($"FullName = {tom.FullName}");
+
+
+            //----------------------------------------------------------------------------------------
+
 
             //var observable = Enumerable.Range(1, 4).ToObservable();
 
@@ -47,6 +52,13 @@ namespace ConsoleApp1
             //        e => Console.WriteLine(e),                              //OnError
             //        () => Console.WriteLine("Taking odd numbers: complete") //OnCompleted
             //    ));
+
+
+            //----------------------------------------------------------------------------------------
+
+
+            var list = new ReactiveList<string>();
+
 
             Console.ReadLine();
         }
