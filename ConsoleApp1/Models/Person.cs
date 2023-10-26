@@ -9,31 +9,42 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class Person
+    public class Person : ReactiveObject
     {
         private string _firstName;
         public string FirstName
         {
             get { return _firstName; }
             set {
-                    if (value == _firstName) return;
-                    _firstName = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(FullName));
-            }
+                    this.RaiseAndSetIfChanged(ref _firstName, value);
+                    UpdateFullName();
+                }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private string _lastName;
+        public string LastName
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get { return _lastName; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _lastName, value);
+                UpdateFullName();
+            }
         }
 
         private string _fullName;
         public string FullName 
         { 
             get => _fullName;
-            set { _fullName = FirstName; }
+            set 
+            {
+                this.RaiseAndSetIfChanged(ref _fullName, value);
+            }
+        }
+
+        private void UpdateFullName()
+        {
+            FullName = $"{FirstName} {LastName}";
         }
     }
 }
