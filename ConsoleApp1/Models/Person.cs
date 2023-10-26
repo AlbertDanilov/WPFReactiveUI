@@ -41,6 +41,7 @@ namespace ConsoleApp1
             _lastName = lastName;
             _fullName = this.WhenAnyValue(p => p.FirstName, p => p.LastName)
                             .Select(t => $"{t.Item1} {t.Item2}")
+                            .Throttle(TimeSpan.FromSeconds(1))
                             .ToProperty(this, p => p.FullName);
         }
 
