@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ConsoleApp1
         private string _firstName;
         public string FirstName
         {
-            get { return _firstName; }
+            get => _firstName; 
             set {
                     this.RaiseAndSetIfChanged(ref _firstName, value);
                 }
@@ -23,33 +24,25 @@ namespace ConsoleApp1
         private string _lastName;
         public string LastName
         {
-            get { return _lastName; }
+            get => _lastName; 
             set
             {
                 this.RaiseAndSetIfChanged(ref _lastName, value);
             }
         }
 
-        private string _fullName;
-        public string FullName 
-        { 
-            get => _fullName;
-            set 
-            {
-                this.RaiseAndSetIfChanged(ref _fullName, value);
-            }
-        }
+        private readonly ObservableAsPropertyHelper<string> _fullName;
+        public string FullName => _fullName.Value;
+
 
         public Person(string firstName, string lastName)
         {
             _firstName = firstName;
             _lastName = lastName;
-            this.WhenAnyValue(p => p.FirstName, p => p.LastName).Subscribe(t => UpdateFullName(t));
+            _fullName = this.WhenAnyValue(p => p.FirstName, p => p.LastName)
+                            .Select(t => $"{t.Item1} {t.Item2}")
+                            .ToProperty(this, p => p.FullName);
         }
 
-        private void UpdateFullName((string, string) tuple)
-        {
-            FullName = $"{tuple.Item1} {tuple.Item2}";
-        }
     }
 }
