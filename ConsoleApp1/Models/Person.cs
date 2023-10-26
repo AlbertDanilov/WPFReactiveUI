@@ -17,7 +17,6 @@ namespace ConsoleApp1
             get { return _firstName; }
             set {
                     this.RaiseAndSetIfChanged(ref _firstName, value);
-                    UpdateFullName();
                 }
         }
 
@@ -28,7 +27,6 @@ namespace ConsoleApp1
             set
             {
                 this.RaiseAndSetIfChanged(ref _lastName, value);
-                UpdateFullName();
             }
         }
 
@@ -42,9 +40,16 @@ namespace ConsoleApp1
             }
         }
 
-        private void UpdateFullName()
+        public Person(string firstName, string lastName)
         {
-            FullName = $"{FirstName} {LastName}";
+            _firstName = firstName;
+            _lastName = lastName;
+            this.WhenAnyValue(p => p.FirstName, p => p.LastName).Subscribe(t => UpdateFullName(t));
+        }
+
+        private void UpdateFullName((string, string) tuple)
+        {
+            FullName = $"{tuple.Item1} {tuple.Item2}";
         }
     }
 }
