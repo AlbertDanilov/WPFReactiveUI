@@ -62,39 +62,47 @@ namespace ConsoleApp1
             //----------------------------------------------------------------------------------------
 
 
-            var people = new ObservableCollection<Person>();
+            //var people = new ObservableCollection<Person>();
 
-            people.CollectionChanged += People_CollectionChanged;
+            //people.CollectionChanged += People_CollectionChanged;
 
 
-            void People_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-            {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add: // если добавление
-                        if (e.NewItems?[0] is Person newPerson)
-                            Console.WriteLine($"Добавлен новый объект: {newPerson.FirstName}");
-                        break;
-                    case NotifyCollectionChangedAction.Remove: // если удаление
-                        if (e.OldItems?[0] is Person oldPerson)
-                            Console.WriteLine($"Удален объект: {oldPerson.FirstName}");
-                        break;
-                    case NotifyCollectionChangedAction.Replace: // если замена
-                        if ((e.NewItems?[0] is Person replacingPerson) &&
-                            (e.OldItems?[0] is Person replacedPerson))
-                            Console.WriteLine($"Объект {replacedPerson.FirstName} заменен объектом {replacingPerson.FirstName}");
-                        break;
-                }
-            }
+            //void People_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            //{
+            //    switch (e.Action)
+            //    {
+            //        case NotifyCollectionChangedAction.Add: // если добавление
+            //            if (e.NewItems?[0] is Person newPerson)
+            //                Console.WriteLine($"Добавлен новый объект: {newPerson.FirstName}");
+            //            break;
+            //        case NotifyCollectionChangedAction.Remove: // если удаление
+            //            if (e.OldItems?[0] is Person oldPerson)
+            //                Console.WriteLine($"Удален объект: {oldPerson.FirstName}");
+            //            break;
+            //        case NotifyCollectionChangedAction.Replace: // если замена
+            //            if ((e.NewItems?[0] is Person replacingPerson) &&
+            //                (e.OldItems?[0] is Person replacedPerson))
+            //                Console.WriteLine($"Объект {replacedPerson.FirstName} заменен объектом {replacingPerson.FirstName}");
+            //            break;
+            //    }
+            //}
 
-            //people.Add(new Person("1","1"));
-            //people.Add(new Person("2","2"));
-            //people.Add(new Person("3","3"));
+            //people.AddRange(Enumerable.Range(1, 100).Select(p => new Person($"{p}", $"{p}")));
 
-            //people.RemoveAt(0);
-            //people.RemoveAt(0);
+            //----------------------------------------------------------------------------------------
 
-            people.AddRange(Enumerable.Range(1, 100).Select(p => new Person($"{p}", $"{p}")));
+
+            ObservableCollection<string> itemsList = new ObservableCollection<string>();
+
+            var itemsCache = itemsList.ToObservableChangeSet().AsObservableList().Connect().Subscribe(x => {
+                Console.WriteLine($"\ncount = {x.Count}");
+                foreach (var item in x) { Console.WriteLine($"Reason = {item.Reason}, Current = {item.Item.Current}, Previous = {item.Item.Previous}"); }
+            });
+
+            itemsList.Add("a");
+            itemsList.Add("b");
+            itemsList[0] = "c";
+            itemsList.RemoveAt(0);
 
             Console.ReadLine();
         }
