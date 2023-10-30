@@ -1,6 +1,11 @@
-﻿using ReactiveUI;
+﻿using DynamicData;
+using DynamicData.Binding;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -9,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class Program
+    internal class Program : ReactiveObject
     {
         static void Main(string[] args)
         {
@@ -57,8 +62,39 @@ namespace ConsoleApp1
             //----------------------------------------------------------------------------------------
 
 
-            var list = new ReactiveList<string>();
+            var people = new ObservableCollection<Person>();
 
+            people.CollectionChanged += People_CollectionChanged;
+
+
+            void People_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add: // если добавление
+                        if (e.NewItems?[0] is Person newPerson)
+                            Console.WriteLine($"Добавлен новый объект: {newPerson.FirstName}");
+                        break;
+                    case NotifyCollectionChangedAction.Remove: // если удаление
+                        if (e.OldItems?[0] is Person oldPerson)
+                            Console.WriteLine($"Удален объект: {oldPerson.FirstName}");
+                        break;
+                    case NotifyCollectionChangedAction.Replace: // если замена
+                        if ((e.NewItems?[0] is Person replacingPerson) &&
+                            (e.OldItems?[0] is Person replacedPerson))
+                            Console.WriteLine($"Объект {replacedPerson.FirstName} заменен объектом {replacingPerson.FirstName}");
+                        break;
+                }
+            }
+
+            //people.Add(new Person("1","1"));
+            //people.Add(new Person("2","2"));
+            //people.Add(new Person("3","3"));
+
+            //people.RemoveAt(0);
+            //people.RemoveAt(0);
+
+            people.AddRange(Enumerable.Range(1, 100).Select(p => new Person($"{p}", $"{p}")));
 
             Console.ReadLine();
         }

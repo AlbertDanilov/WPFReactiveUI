@@ -1,13 +1,15 @@
-﻿using ReactiveUI;
+﻿using DynamicData.Binding;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
@@ -32,6 +34,5 @@ namespace ConsoleApp1
                             //.Throttle(TimeSpan.FromSeconds(1))
                             .ToProperty(this, p => p.FullName);
         }
-
     }
 }
