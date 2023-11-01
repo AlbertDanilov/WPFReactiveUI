@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1
@@ -92,17 +93,35 @@ namespace ConsoleApp1
             //----------------------------------------------------------------------------------------
 
 
-            ObservableCollection<string> itemsList = new ObservableCollection<string>();
+            //ObservableCollection<string> itemsList = new ObservableCollection<string>();
 
-            var itemsCache = itemsList.ToObservableChangeSet().AsObservableList().Connect().Subscribe(x => {
-                Console.WriteLine($"\ncount = {x.Count}");
-                foreach (var item in x) { Console.WriteLine($"Reason = {item.Reason}, Current = {item.Item.Current}, Previous = {item.Item.Previous}"); }
-            });
+            //var itemsCache = itemsList.ToObservableChangeSet().AsObservableList().Connect().Subscribe(x => {
+            //    Console.WriteLine($"\ncount = {x.Count}");
+            //    foreach (var item in x) { Console.WriteLine($"Reason = {item.Reason}, Current = {item.Item.Current}, Previous = {item.Item.Previous}"); }
+            //});
 
-            itemsList.Add("a");
-            itemsList.Add("b");
-            itemsList[0] = "c";
-            itemsList.RemoveAt(0);
+            //itemsList.Add("a");
+            //itemsList.Add("b");
+            //itemsList[0] = "c";
+            //itemsList.RemoveAt(0);
+
+
+            //----------------------------------------------------------------------------------------
+
+
+            //string s = string.Empty;
+            //string pattern = string.Empty;
+
+            ////s = "Бык Тупогуб, тупогубенький бычок, у быка губа бела была тупа";
+            ////pattern = @"туп(\w*)";
+
+            //s = "123-123-1234";
+            //pattern = @"[0-9]{3}-\d{3}-\d{3}4$";
+
+            //Regex regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            //var isMatch = regex.IsMatch(s);
+            ////MatchCollection matches = regex.Matches(s);
 
             Console.ReadLine();
         }
