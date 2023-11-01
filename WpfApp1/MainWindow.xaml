@@ -13,6 +13,7 @@
                 <TextBlock Name="textBlock_finded" Background="White"></TextBlock>
             </ScrollViewer>-->
             <ListBox Name="listBox_finded" Margin="15 5 15 0" Width="700" Height="310" />
+            <Label Name="label_findedCount" Margin="30 2 0 0" FontWeight="Bold" />
         </StackPanel>
     </Grid>
 </Window>

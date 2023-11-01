@@ -24,12 +24,12 @@ namespace WpfApp1
                                        ' ', 'k', 'l', 'm', 'n', 'o',
                                        ' ', 'p', 'q', 'r', 's', 't',
                                        ' ', 'u', 'v', 'w', 'x', 'y', 'z' };
+
         List<string> dictionary = new List<string>();
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
 
-
-        private string _searchText;
+        private string _searchText = string.Empty;
 
         public string searchText {
             get { return _searchText; }
@@ -37,19 +37,17 @@ namespace WpfApp1
             {
                 _searchText = value;
  
-                Dispatcher.Invoke(() => {
-                    listBox_finded.Items.Clear();
-                });
+                Dispatcher.Invoke(() => { listBox_finded.Items.Clear(); });
 
-                foreach (string item in dictionary.Where(x => x.Contains(_searchText)).ToList())
+                if (!string.IsNullOrEmpty(_searchText.Trim()))
                 {
-                    Dispatcher.Invoke(() => {
-                        listBox_finded.Items.Add(item); 
-                    });
-                }            
+                    foreach (string item in dictionary.Where(x => x.Contains(_searchText)).ToList())
+                    { Dispatcher.Invoke(() => { listBox_finded.Items.Add(item); }); }
+                }
+                
+                Dispatcher.Invoke(() => { label_findedCount.Content = $"Finded: {listBox_finded.Items.Count}"; });
             }
         }
-
 
         public MainWindow()
         {
@@ -65,16 +63,11 @@ namespace WpfApp1
                 return sb.ToString();
             }).ToList());
 
-
             Observable.FromEventPattern(textBox_search, "TextChanged")
                       .Select(s => ((TextBox)s.Sender).Text)
                       .Throttle(TimeSpan.FromSeconds(1))
                       .DistinctUntilChanged()
-                      .Subscribe(text => { 
-                          searchText = text; 
-                      });
-
+                      .Subscribe(text => { searchText = text; });
         }
-
     }
 }
