@@ -17,16 +17,13 @@ using System.Windows.Shapes;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         char[] alphabet = new char[] { ' ', 'a', 'b', 'c', 'd', 'e', 
                                        ' ', 'f', 'g', 'h', 'i', 'j',
                                        ' ', 'k', 'l', 'm', 'n', 'o',
                                        ' ', 'p', 'q', 'r', 's', 't',
-                                       ' ', 'u', 'v', 'w', 'x', 'y', 'z', ' ' };
+                                       ' ', 'u', 'v', 'w', 'x', 'y', 'z' };
         List<string> dictionary = new List<string>();
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -39,15 +36,17 @@ namespace WpfApp1
             set
             {
                 _searchText = value;
-                sb.Clear();
-                foreach(string item in dictionary.Where(x => x.Contains(_searchText)).ToList())
-                {
-                    sb.AppendLine($"{item}");
-                }
-
+ 
                 Dispatcher.Invoke(() => {
-                    textBlock_finded.Text = sb.ToString();
-                });                
+                    listBox_finded.Items.Clear();
+                });
+
+                foreach (string item in dictionary.Where(x => x.Contains(_searchText)).ToList())
+                {
+                    Dispatcher.Invoke(() => {
+                        listBox_finded.Items.Add(item); 
+                    });
+                }            
             }
         }
 

@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" MaxHeight="450" MaxWidth="800" MinHeight="450" MinWidth="800">
     <Grid Background="White">
         <StackPanel Margin="15 15 15 15" Background="LightGray">
             <TextBox x:Name="textBox_search" Margin="15 15 15 5" Width="500" TextAlignment="Center"></TextBox>
-            <ScrollViewer Margin="15 5 15 0" Width="700" Height="300" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <!--<ScrollViewer Margin="15 5 15 0" Width="700" Height="310" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <TextBlock Name="textBlock_finded" Background="White"></TextBlock>
-            </ScrollViewer>            
+            </ScrollViewer>-->
+            <ListBox Name="listBox_finded" Margin="15 5 15 0" Width="700" Height="310" />
         </StackPanel>
     </Grid>
 </Window>
